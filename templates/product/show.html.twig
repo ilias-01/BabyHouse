@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Wellcome to BabyHouse{% endblock %}
+
+{% block body %}
+<section class="container my-5">
+    <h3 class="text-center my-5"> {{ product.title}} </h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="#">
+                <img class="card-img-top img-thumbnail" src="{{ vich_uploader_asset(product,'imageFile') }}" alt="Card image cap">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <p>{{ product.name}}</p>
+            <p>{{ product.prix}} <small>€</small></p>
+            <hr>
+            <div class="d-flex">
+                <a href="#" class="btn btn-primary mr-3" style="color:white;">Add to wish list</a>
+                <a href="{{ path('cart.add',{'id':product.id,'quantity':1}) }}" class="btn btn-primary js-add" style="color:white;"><span>Add to Cart</span></a>
+            </div>
+            <hr>
+            <div class="mt-5">
+                <h3>Description</h3>
+                <p>{{ product.description }}</p>
+            </div>
+            <p>Category  :<strong style="color:green;"> {{ product.category.label }}<strong></p>
+        </div>
+    </div>
+</section>
+<section class="container">
+    <h4 class="text-center">Similare products by category</h4>
+    {% for product in similar_products %}
+        <a href="{{ path('product.show',{'id':product.id}) }}" style=" text-decoration:none; color: white;">
+          {{ include('product/_card.html.twig') }}
+        </a>
+    {% endfor %}
+</section>
+
+{% endblock %}

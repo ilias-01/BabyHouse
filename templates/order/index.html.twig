@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+    <div class="row">
+        <div class="col-md-6">
+        {% set formHtml %}
+            {{form_start(form,{action:path('order_recap')})}}
+                {{ form_label(form.addresses,'Choose your address') }}
+                <a class=" btn btn-small"  href="{{ path('add_address') }}" style="color:white;" >Ajouter une nouvelle adresse</a>
+            {{form_end(form)}}
+        {% endset %}
+        {{ formHtml|replace({'[br]': '<br/>'})| raw }}
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <b>Order recap</b><br>
+                <p> Retrouvez le récaputilatif de vos produits </p>
+            </div>
+            <div class='order-summary'>
+                {% for key,product in cart_data  %}
+                    <div class='row {% if key > 0 %} mt-2 {% endif %} '>
+                        <div class="col-2">
+                            <img class="card-img-top img-thumbnail" src="{{ vich_uploader_asset(product['product'],'imageFile') }}" alt="Card image cap">
+                        </div>
+                        <div class="col-8 my-auto">
+                                {{ product['product'].title }} <br>
+                                <small> {{ product['product'].description }} </small>
+                        </div>
+                        <div class="col-2 my-auto">
+                            x {{ product['quantity'] }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

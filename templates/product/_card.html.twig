@@ -1,0 +1,16 @@
+        <div class="col-md-4">
+            <div class="card card-01 height-fix">
+                {# {% if product.imageFile %} #}
+                    <img class="card-img-top" src="{{ vich_uploader_asset(product,'imageFile') }}" alt="Card image cap">
+                {# {% else %}
+                    <img class="card-img-top" src="{{ '/images/anete-lusina-zwshjake-ii-unsplash-5fb006bb7ce57818534493.jpg' }}"   alt="display error">
+                {% endif %} #}
+                <div class="card-img-overlay">
+                    <h4 class="card-title"><strong>{{ product.name }}</strong></h4>
+                    <p class="card-text">{{ product.title }}</p>
+                    {# <p class="card-text"><a href="#" class="fa fa-bookmark-o"></a><a class="fa fa-heart-o" href="#"></a></p> #}
+                    <p class="card-text">{{ product.prix }} <small>€</small></p>
+                    <a href="{{ path('cart.add',{'id': product.id,'quantity':1}) }}" class="btn btn-success ml-auto js-add">Add to cart<a>
+                </div>
+            </div>
+        </div>

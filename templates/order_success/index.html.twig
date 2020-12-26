@@ -1,0 +1,19 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Success Payment{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2> Confirmation de la commande </h2>
+    <p>
+        Bonjour {{ order.user.firstname }}  {{ order.user.lastname }} <br/>
+        Nous remercions pour votre commande n°{{ order.reference }} <br/>
+        Une confirmation vient de vous être envoyée par mail à l'adresse {{ order.user.email }}
+        <hr>
+        Votre commande sera livrée par {{ order.carrierName }} à l'adresse suivante : <br/>
+        {{ order.delivery|raw }}
+        <hr>
+        Pour suivre votre commande,rendez vous à votre <a href="#">compte</a>
+    </p>
+</div>
+{% endblock %}

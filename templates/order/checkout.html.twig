@@ -1,0 +1,217 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Wellcome to BabyHouse{% endblock %}
+
+{% block body %}
+<!-- Breadcrumbs -->
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="bread-inner">
+							<ul class="bread-list">
+								<li><a href="index1.html">Home<i class="ti-arrow-right"></i></a></li>
+								<li class="active"><a href="blog-single.html">Checkout</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Breadcrumbs -->
+				
+		<!-- Start Checkout -->
+		<section class="shop checkout section">
+			<div class="container">
+				<div class="row"> 
+					<div class="col-lg-8 col-12">
+						<div class="checkout-form">
+							<h3>Mon adresse de livraison</h3>
+							<div class="form-check">
+								{{ delivery | raw }}
+							</div>
+							<br/>
+							<h3>Mon transporteur</h3>
+							<div class="form-check">
+								{{ carrier.name }}<br/>
+								{{ carrier.description }}<br/>
+								{{ (carrier.price/100)|number_format(2,',',',') }} €
+							</div>
+							<h3>Ma commande</h3>
+							<div class='order-summary'>
+								{% set total = null %}
+								{% for key,product in cart_data  %}
+									<div class='row {% if key > 0 %} mt-2 {% endif %} '>
+										<div class="col-2">
+											<img class="card-img-top img-thumbnail" src="{{ vich_uploader_asset(product['product'],'imageFile') }}" alt="Card image cap">
+										</div>
+										<div class="col-8 my-auto">
+												{{ product['product'].name }} <br/>
+												<small>
+												{{ product['product'].description }} 
+												<br/>
+												x {{ product['quantity'] }} 
+												</small>
+										</div>
+										<div class="col-2 my-auto">
+											{{ (product['product'].prix * product['quantity'])|number_format(2) }} $
+										</div>
+									</div>
+									{% set total = total +(product['product'].prix * product['quantity'])  %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-12">
+						<div class="order-details">
+							<!-- Order Widget -->
+							<div class="single-widget">
+								<h2>CART  TOTALS</h2>
+								<div class="content">
+									<ul>
+										<li>Sub Total<span> {{ (total)|number_format(2,',',',') }}  $</span></li>
+										<li>(+) Shipping<span> {{ (carrier.price/100)|number_format(2,',',',') }} $</span></li>
+										<li class="last">Total<span>{{ ((total)+(carrier.price/100))|number_format(2,',',',') }}$</span></li>
+									</ul>
+								</div>
+							</div>
+							<!--/ End Order Widget -->
+							<!-- Order Widget -->
+							<div class="single-widget">
+								<h2>Payments</h2>
+								<div class="content">
+									<div class="checkbox">
+										<label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label>
+										<label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Cash On Delivery</label>
+										<label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox"> PayPal</label>
+									</div>
+								</div>
+							</div>
+							<!--/ End Order Widget -->
+							<!-- Payment Method Widget -->
+							<div class="single-widget payement">
+								<div class="content">
+									<img src="{{ asset('assets/images/payment-method.png') }}" alt="#">
+								</div>
+							</div>
+							<!--/ End Payment Method Widget -->
+							<!-- Button Widget -->
+							<div class="single-widget get-button">
+								<div class="content">
+									<div class="button">
+										<a  class="btn" id="checkout-button" style="cursor:pointer;" >checkout {{ ((total)+(carrier.price/100))|number_format(2,',',',') }} $</a>
+									</div>
+								</div>
+							</div>
+							<!--/ End Button Widget -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/ End Checkout -->
+		
+		<!-- Start Shop Services Area  -->
+		<section class="shop-services section home">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="ti-rocket"></i>
+							<h4>Free shiping</h4>
+							<p>Orders over $100</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-3 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="ti-reload"></i>
+							<h4>Free Return</h4>
+							<p>Within 30 days returns</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-3 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="ti-lock"></i>
+							<h4>Sucure Payment</h4>
+							<p>100% secure payment</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+					<div class="col-lg-3 col-md-6 col-12">
+						<!-- Start Single Service -->
+						<div class="single-service">
+							<i class="ti-tag"></i>
+							<h4>Best Peice</h4>
+							<p>Guaranteed price</p>
+						</div>
+						<!-- End Single Service -->
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Shop Services -->
+		
+		<!-- Start Shop Newsletter  -->
+		<section class="shop-newsletter section">
+			<div class="container">
+				<div class="inner-top">
+					<div class="row">
+						<div class="col-lg-8 offset-lg-2 col-12">
+							<!-- Start Newsletter Inner -->
+							<div class="inner">
+								<h4>Newsletter</h4>
+								<p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
+								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
+									<input name="EMAIL" placeholder="Your email address" required="" type="email">
+									<button class="btn">Subscribe</button>
+								</form>
+							</div>
+							<!-- End Newsletter Inner -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Shop Newsletter -->
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+    var stripe = Stripe("pk_test_51HxzciFUswP4n39Th2Wz7f6FMLJnpCiEVoIX2P0mmL5h5e6ILijlz2xaKBLJNi6K3nwPDUw6cGjGqszctHBwj4fJ00A1XLev2R");
+    var checkoutButton = document.getElementById("checkout-button");
+    
+    checkoutButton.addEventListener("click", function () {
+      fetch("/order/create-session/{{ reference }}", {
+        method: "POST",
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+            if(session.error == 'order'){
+                //redirect
+                window.location.replace('{{ path("order") }}')
+            }else{
+                return stripe.redirectToCheckout({ sessionId: session.id });
+            }
+          
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+  </script>
+{% endblock %}

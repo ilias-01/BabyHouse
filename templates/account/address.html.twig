@@ -1,0 +1,38 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Account--My addresses{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+        <a href="{{ path('add_address') }}" class="btn btn-info btn-sm float-right" style="color:white;">Add an addresse</a>
+        <h1>My adresses</h1>
+
+        You will find all your addresses here !<br>
+        <hr>
+        {% if app.user.addresses | length == 0 %}
+            No addresse added yet.To add one please <a href="#">click here .</a>
+        {% endif %}
+        <br>
+        
+
+        <div class='row mb-3'>
+            {% for address in app.user.addresses %}
+                <div class=" col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ address.name }}</h5>
+                            <p class="card-text">
+                                {{ address.address }},<br>
+                                {{ address.postal }} -- {{ address.city }} -- {{ address.country }}
+                            </p>
+                            <a href="{{ path('modify_address',{'id':address.id}) }}">Modify</a> | <a href="{{ path('delete_address',{'id':address.id}) }}">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ path('account_address') }}">Go back</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Wellcome to BabyHouse{% endblock %}
+
+{% block body %}
+    <div class="container">
+    {{form_start(form)}}
+         {{ form_row(form.title)  }}
+         {{ form_row(form.description)  }}
+         {{ form_row(form.prix)  }}
+         {{ form_row(form.imageFile)  }}
+         <input type="submit" class="btn btn-primary" value="Submit" />
+    {{form_end(form)}}
+    </div>
+{% endblock %}

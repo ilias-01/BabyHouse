@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}My account{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .link-account{
+            padding: 60px 30px;
+            background-color: #EEE;
+            display: block;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+<div class="container my-4">
+    <h3>Hi {{ app.user.firstname }}</h3>
+    <p>Wellcome to your private space</p>
+
+    <div class="row my-3" >
+        <div class="col-md-3">
+            <a href="{{ path('account_address') }}" class="link-account">
+                <i class="fa fa-home fa-4x" aria-hidden="true"></i><br>
+                My addresses 
+             </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{path('account_order')}}" class="link-account">
+             <i class="fa fa-align-justify fa-4x" aria-hidden="true"></i><br>
+             My orders 
+             </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ path('account_password') }}" class="link-account"> 
+             <i class="fa fa-edit fa-4x" aria-hidden="true"></i><br>
+            Edit my password 
+            </a>
+        </div>
+        {% set roles = app.user.roles %}
+        {% if roles[0] == "ROLE_ADMIN" %}
+        <div class="col-md-3">
+            <a href="/admin" class="link-account">
+            <i class="fa fa-desktop fa-4x" aria-hidden="true"></i><br>
+              BackOffice
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+</div>
+{% endblock %}

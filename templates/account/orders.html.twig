@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}My account -- orders{% endblock %}
+
+{% block body %}
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Reference</th>
+                <th scope="col">State</th>
+                <th scope="col">Paid</th>
+                <th scope="col">Product(s)</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                        <td>
+                            <span class="badge badge-secondary">{{ order.reference }}</span>
+                        </td>
+                        <td>
+                            {% if order.state == 1 %}
+                                payment accepted
+                            {% elseif order.state == 2 %}
+                                loading preparation
+                            {% elseif order.state == 3 %}
+                                loading delivery
+                            {% endif %}
+                        </td>
+                        <td>{{ order.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ order.orderDetails | length }}</td>
+                        <td>{{ ((order.carrierPrice)/100 + order.getTotal) | number_format(2,',',',') }}  $</td>
+                        <td class='text-right' ><a href='{{ path('show_order',{'reference':order.reference}) }}'>show order</a></td> 
+                
+            </tr>
+            {% endfor %}   
+        </tbody>
+    </table>
+</div>
+{% endblock %}
