@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\ProductSearch;
+use App\Entity\Wishlist;
 use App\Form\ProductQuantityType;
 use App\Form\ProductSearchPriceType;
 use App\Form\ProductSearchType;
 use App\Repository\CartRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\WishlistRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +23,8 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="app.home")
      */
-    public function index(ProductRepository $productRep,CategoryRepository $categoryRep,SessionInterface $session,Request $request,CartRepository $cartRepository): Response
+    public function index(ProductRepository $productRep,CategoryRepository $categoryRep,
+    SessionInterface $session,Request $request,CartRepository $cartRepository,WishlistRepository $wishlistRep): Response
     {
         //$category = new Category(); $category->setLabel('Boys');
         //$categories = $categoryRep->findAll();
@@ -34,7 +37,16 @@ class HomeController extends AbstractController
         $product_category_girls = $productRep->findByCategory($category_girls[0]->getId());
         //CART
         $session_array = $cartRepository->findBy(["user"=>$this->getUser()]);
-        
+
+        //WISHLIST
+        $wish = $wishlistRep->findBy(["user"=>$this->getUser()]);
+        // dd($wish);
+        $wishlist=[];
+        if($wish){
+            foreach ($wish as $w) {
+                $wishlist[] = $w->getProduct()->getId();
+            }
+        }
         
         $cartWithData = [];
         foreach ($session_array as  $cart) {
@@ -75,6 +87,7 @@ class HomeController extends AbstractController
             $products = $productRep->findBySearch($price);
                 return $this->render('product/shop_grid.html.twig',[
                     'products' => $products,
+                    'wishlist_ids' => $wishlist,
                     'search_form' => $form->createView(),
                     'search_price' => $form_price->createView(),
                     'cart_data'   => $cartWithData,
@@ -89,6 +102,7 @@ class HomeController extends AbstractController
             'products_random'           => $random_products,
             'products_category_boys'    => $products_category_boys,
             'products_category_girls'   => $product_category_girls,
+            'wishlist_ids' => $wishlist,
             'categories'   => $categoryRep->findAll(),
             'cart_data'   => $cartWithData,
             'search_form' => $form->createView(),

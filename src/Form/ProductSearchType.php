@@ -29,7 +29,7 @@ class ProductSearchType extends AbstractType
                 //'required' => false,
                 'label' =>false,
                 'class' => Category::class,
-                'choice_label' => 'label',
+                'choice_label' => 'label'
                 //'multiple' => true,
             ])
             // ->add('price', RangeType::class, [

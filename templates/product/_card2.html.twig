@@ -7,8 +7,12 @@
 														<div class="button-head">
 															<div class="product-action">
 																<a data-toggle="modal" data-target="#testModal{{ product.id }}" title="Quick View" href="#" ><i class=" ti-eye"></i><span>Quick Shop</span></a>
-																<a title="Wishlist" href="#" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-																<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
+																{% if product.id in wishlist_ids %}
+																	<a title="Wishlist"  href="{{ path('wish_list_add',{'id': product.id} ) }}"  class="js-remove-wishlist"><i class="ti-heart-broken"></i> <span>Remove from the wishlist</span></a>
+																{% else %}
+																	<a title="Wishlist"  href="{{ path('wish_list_add',{'id': product.id} ) }}"  class="js-add-wishlist"><i class="ti-heart"></i> <span>Add to wishlist</span></a>
+																{% endif %}
+																{# <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a> #}
 															</div>
 															<div class="product-action-2">
 																<a title="Add to cart" href="{{ path('cart.add',{'id': product.id,'quantity': 1 } ) }}" class="js-add"><span>Add to cart</span></a>
