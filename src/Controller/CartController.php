@@ -52,7 +52,7 @@ class CartController extends AbstractController
         $form_quantity = $this->createForm(ProductQuantityType::class,null);
         $form_quantity->handleRequest($request);
 
-        //à faire dans une autre méthode
+        //à faire avec une autre méthode
         if($form_quantity->isSubmitted() && $form_quantity->isValid())
         {
             dd($form_quantity->get('quantity'));

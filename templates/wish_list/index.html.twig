@@ -23,7 +23,7 @@
 <!-- Shopping Cart -->
 <div class="shopping-cart section">
 		<div class="container">
-		{# {% if items | length > 0  %} #}
+		{% if products | length > 0  %}
             <h5 class='text-center mb-4 fw-light'>Your favorite products are listed here</h5>
 			<div class="row">
 				<div class="col-12">
@@ -38,7 +38,17 @@
 							</tr>
 						</thead>
 						<tbody>
-						
+						{% for key,product in products %}
+							<tr>
+								<td class="image" data-title="No"><img src="https://via.placeholder.com/100x100" alt="#"></td>
+								<td class="product-des" data-title="Description">
+									<p class="product-name"><a href="{{ path('product.show',{'id':product.id}) }}">{{ product.title }}</a></p>
+									<p class="product-des">{{ product.description }}</p>
+								</td>
+								<td class="price" data-title="Price"><span>${{ product.prix }}</span></td>
+								<td class="action" data-title="Remove"><a href="{{ path('wish_list_toggle',{'id':product.id}) }}" class="js-remove"><i class="ti-trash remove-icon"></i></a></td>
+							</tr>
+						{% endfor %}
 						</tbody>
 					</table>
 					<!--/ End Shopping Summery -->
@@ -67,10 +77,10 @@
 					<!--/ End Total Amount -->
 				</div>
 			</div>
-		{# {% else %}
+		{% else %}
 			<hr>
-        	<p><b>Votre panier est vide.</b></p>	
-		{% endif %} #}
+        	<p><b>Your wishlist is empty</b></p>	
+		{% endif %}
 		</div>
 	</div>
 {% endblock %}

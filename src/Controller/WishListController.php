@@ -17,21 +17,24 @@ class WishListController extends AbstractController
     /**
      * @Route("/wish-list", name="wish_list")
      */
-    public function index(): Response
+    public function index(WishlistRepository $wishRep,ProductRepository $productRepository): Response
     {
+        $wish_array = $wishRep->findBy(["user"=>$this->getUser()]);
+        
+        $wishlist_products = [];
+        foreach ($wish_array as  $wishlist) {
+            $wishlist_products[] = $productRepository->find($wishlist->getProduct()->getId());
+        }
         return $this->render('wish_list/index.html.twig', [
-            'controller_name' => 'WishListController',
+            'products' => $wishlist_products,
         ]);
     }
 
-    //Rename the function To Toggle
     /**
      * @Route("/wish-list/toggle/{id}", name="wish_list_toggle")
      */
     public function toggle(Product $product,EntityManagerInterface $em,WishlistRepository $wishRep): Response
     {
-        #Amelioration: rename the function to toggle ???
-
         //check if the product  is in the wishlist
         $has_wishlist = $wishRep->findBy(['product' => $product , "user"=> $this->getUser()]); 
         if($has_wishlist){
