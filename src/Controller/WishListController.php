@@ -24,10 +24,11 @@ class WishListController extends AbstractController
         ]);
     }
 
+    //Rename the function To Toggle
     /**
-     * @Route("/wish-list/add/{id}", name="wish_list_add")
+     * @Route("/wish-list/toggle/{id}", name="wish_list_toggle")
      */
-    public function add(Product $product,EntityManagerInterface $em,WishlistRepository $wishRep): Response
+    public function toggle(Product $product,EntityManagerInterface $em,WishlistRepository $wishRep): Response
     {
         #Amelioration: rename the function to toggle ???
 
@@ -42,6 +43,7 @@ class WishListController extends AbstractController
             return $this->json([
                 'code' => "200",
                 'message' => "the product is well deleted",
+                'toggle' => false,
             ],200);
         }else{
             $wish = new Wishlist();
@@ -52,6 +54,7 @@ class WishListController extends AbstractController
             return $this->json([
                 'code' => "200",
                 'message' => "the product is well added to the wishlist",
+                'toggle' => true,
             ],200);
         }
     }

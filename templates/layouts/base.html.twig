@@ -113,16 +113,19 @@
 
             function onClickAddWishlist(event) {
                 event.preventDefault();
-                this.className = "js-remove-wishlist";
                 const url = this.href;
                 const buttonText = this.querySelector('span');
                 const heartIcon = this.querySelector('i');
-
+                this.className = "js-remove-wishlist";
+                
                 axios.get(url).then(function(response){
-                    //spanCount.textContent = response.data.productNb; POUR l'icon CART
-                    buttonText.textContent = "Remove from the wishlist";
-                    heartIcon.className = "ti-heart-broken";
-
+                    if(response.data.toggle){
+                        buttonText.textContent = "Remove from the wishlist";
+                        heartIcon.className = "ti-heart-broken";
+                    }else{
+                        buttonText.textContent = "Add to the wishlist";
+                        heartIcon.className = "ti-heart";
+                    }
                 }).catch(function(error) {
                     if(error.response.status === 403){
                         window.alert('Unauthorized action, please log in !')
@@ -142,24 +145,29 @@
 
             function onClickRemoveWishlist(event) {
                 event.preventDefault();
-                this.className = "js-add-wishlist";
                 const url = this.href;
                 const buttonText = this.querySelector('span');
                 const heartIcon = this.querySelector('i');
-
+                this.className = "js-add-wishlist";
+                console.log("REMOVE");
                 axios.get(url).then(function(response){
-                    //spanCount.textContent = response.data.productNb; POUR l'icon CART
-                    buttonText.textContent = "Add to the wishlist";
-                    heartIcon.className = "ti-heart";
+                    if(response.data.toggle){
+                        buttonText.textContent = "Remove from the wishlist";
+                        heartIcon.className = "ti-heart-broken";
+                    }else{
+                        buttonText.textContent = "Add to the wishlist";
+                        heartIcon.className = "ti-heart";
+                    }
                 });
             }
 
         	document .querySelectorAll('a.js-add-wishlist').forEach(function(link){
                     link.addEventListener('click',onClickAddWishlist);
-                });
+            });
             document .querySelectorAll('a.js-remove-wishlist').forEach(function(link){
-                    link.addEventListener('click',onClickRemoveWishlist);
-                });    
+                        link.addEventListener('click',onClickRemoveWishlist);
+                    });
+            
         </script>
         {% block script %}
         {% endblock %}
